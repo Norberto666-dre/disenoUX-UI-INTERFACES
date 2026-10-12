@@ -9,12 +9,13 @@ import {
   totalPorCobrar,
 } from "../lib/calc";
 import { fecha, money } from "../lib/format";
+import { exportarCSV } from "../lib/csv";
 import { EstadoVacio, InsigniaEstado, TarjetaKPI, TituloPantalla } from "../components/ui";
 
 type Vista = "ventas" | "cobrar";
 
 export default function Finanzas() {
-  const { db } = useApp();
+  const { db, puede, notificar } = useApp();
   const navegar = useNavigate();
   const [vista, setVista] = useState<Vista>("ventas");
 
@@ -24,6 +25,38 @@ export default function Finanzas() {
     .sort((a, b) => (a.fechaLimitePago ?? "").localeCompare(b.fechaLimitePago ?? ""));
   const vencidas = cobrosVencidos(db);
   const total = totalPorCobrar(db);
+
+  const exportar = () => {
+    const nombre = (id: string) => db.clientes.find((c) => c.id === id)?.nombre ?? "—";
+    if (vista === "ventas") {
+      exportarCSV(
+        "rentabilidad-ventas",
+        ["Factura", "Cliente", "Fecha", "Total", "Saldo", "Estado"],
+        ventas.map((v) => [
+          v.numeroFactura,
+          nombre(v.clienteId),
+          v.fecha,
+          v.totalFacturado,
+          saldoVenta(db, v),
+          etiquetaEstadoCobro(estadoCobroVenta(db, v)),
+        ]),
+      );
+    } else {
+      exportarCSV(
+        "rentabilidad-cuentas-por-cobrar",
+        ["Factura", "Cliente", "Fecha límite", "Total", "Saldo", "Estado"],
+        conSaldo.map((v) => [
+          v.numeroFactura,
+          nombre(v.clienteId),
+          v.fechaLimitePago ?? "",
+          v.totalFacturado,
+          saldoVenta(db, v),
+          etiquetaEstadoCobro(estadoCobroVenta(db, v)),
+        ]),
+      );
+    }
+    notificar("Reporte exportado en CSV.");
+  };
 
   return (
     <div>
@@ -42,6 +75,15 @@ export default function Finanzas() {
           </button>
         ))}
       </div>
+
+      {puede("reporte:exportar") && (
+        <button
+          onClick={exportar}
+          className="mb-4 w-full rounded-xl border border-campo-300 dark:border-campo-700 bg-campo-50 dark:bg-campo-900/50 px-4 py-2.5 text-sm font-semibold text-campo-800 dark:text-campo-200 shadow-sm hover:bg-campo-100 dark:hover:bg-campo-900"
+        >
+          ⬇ Exportar CSV de {vista === "ventas" ? "ventas" : "cuentas por cobrar"}
+        </button>
+      )}
 
       {vista === "ventas" &&
         (ventas.length === 0 ? (
