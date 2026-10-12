@@ -9,7 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import seed from "../data/db.json";
-import { PERMISOS_POR_ROL, type AlertaGenerada, type Permiso, type Sesion, type DB, type Usuario } from "../types";
+import { PERMISOS_POR_ROL, permisosPlan, type AlertaGenerada, type Permiso, type Sesion, type DB, type Usuario } from "../types";
 import { cargarDB, guardarDB, reiniciarDB, registrarBitacora } from "../lib/db";
 import { DURACION_TOAST, uid } from "../lib/format";
 import { generarAlertas } from "../lib/calc";
@@ -107,6 +107,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const empresaVencida =
     db.empresa.estado === "VENCIDA" || db.empresa.estado === "CANCELADA";
 
+  /* permisos efectivos = rol ∩ plan de suscripción */
+  const permisosPlanActual = useMemo(
+    () => permisosPlan(db.planes.find((p) => p.id === db.empresa.planId)?.codigo),
+    [db.planes, db.empresa.planId],
+  );
+
   const actualizar = useCallback(
     (fn: (db: DB) => DB) => {
       setDb((prev) => {
@@ -162,7 +168,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const anteriores = alertasPrevias.current;
     alertasPrevias.current = actuales;
     if (!anteriores) return;
-    const veAlertas = sesion && PERMISOS_POR_ROL[sesion.rol].includes("reporte:ver");
+    const veAlertas =
+      sesion &&
+      PERMISOS_POR_ROL[sesion.rol].includes("reporte:ver") &&
+      permisosPlanActual.includes("reporte:ver");
     if (!veAlertas) return;
     const nuevas = alertas.filter(
       (a) =>
@@ -174,7 +183,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const texto = `${a.tipo}: ${a.mensaje}`;
       notificar(texto.length > 145 ? `${texto.slice(0, 145)}…` : texto, "info");
     });
-  }, [alertas, sesion, leidas, notificar]);
+  }, [alertas, sesion, leidas, notificar, permisosPlanActual]);
 
   const registrar = useCallback(
     (
@@ -224,8 +233,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const puede = useCallback(
-    (p: Permiso) => (sesion ? PERMISOS_POR_ROL[sesion.rol].includes(p) : false),
-    [sesion],
+    (p: Permiso) =>
+      sesion
+        ? PERMISOS_POR_ROL[sesion.rol].includes(p) && permisosPlanActual.includes(p)
+        : false,
+    [sesion, permisosPlanActual],
   );
 
   const reiniciarDatos = useCallback(() => {

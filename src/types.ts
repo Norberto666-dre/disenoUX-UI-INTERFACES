@@ -401,3 +401,42 @@ export const PERMISOS_POR_ROL: Record<Rol, Permiso[]> = {
     "reporte:exportar",
   ],
 };
+
+/* Permisos que habilita cada plan de suscripción. El acceso final es la
+   intersección: permisos del rol ∩ permisos del plan. */
+export type CodigoPlan = "BASICO" | "PRODUCTOR" | "EMPRESA";
+
+const PERMISOS_BASICO: Permiso[] = [
+  "tablero:ver",
+  "estructura:administrar",
+  "estructura:ver",
+  "ciclo:crear",
+  "ciclo:cerrar",
+  "actividad:crear",
+  "gasto:crear",
+  "cosecha:crear",
+  "merma:crear",
+  "venta:crear",
+  "venta:cancelar",
+  "cobro:crear",
+  "tercero:administrar",
+  "usuario:administrar",
+  "empresa:administrar",
+];
+
+const PERMISOS_PRODUCTOR: Permiso[] = [
+  ...PERMISOS_BASICO,
+  "ciclo:reabrir",
+  "gasto:editar_todos",
+  "reporte:ver",
+];
+
+export const PLAN_PERMISOS: Record<CodigoPlan, Permiso[]> = {
+  BASICO: PERMISOS_BASICO,
+  PRODUCTOR: PERMISOS_PRODUCTOR,
+  EMPRESA: [...PERMISOS_PRODUCTOR, "reporte:exportar"],
+};
+
+export function permisosPlan(codigo: string | undefined): Permiso[] {
+  return PLAN_PERMISOS[codigo as CodigoPlan] ?? PLAN_PERMISOS.EMPRESA;
+}

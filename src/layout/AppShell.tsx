@@ -51,13 +51,14 @@ const ACCIONES: Record<Rol, { to: string; icono: string; texto: string }[]> = {
 };
 
 export function AppShell({ children }: { children: ReactNode }) {
-  const { sesion, empresaVencida, toasts, descartarToast, alertasNoLeidas } = useApp();
+  const { sesion, empresaVencida, toasts, descartarToast, alertasNoLeidas, puede } = useApp();
   const navegar = useNavigate();
   const { pathname } = useLocation();
   const [hojaAcciones, setHojaAcciones] = useState(false);
   if (!sesion) return null;
 
-  const tabs = TABS[sesion.rol];
+  // la tab de Alertas requiere el permiso de reportes (rol y plan)
+  const tabs = TABS[sesion.rol].filter((t) => t.to !== "/alertas" || puede("reporte:ver"));
   const acciones = ACCIONES[sesion.rol];
   // el botón flotante de nueva captura solo vive en la tab de Inicio
   const enInicio = pathname === "/tablero" || pathname === "/inicio";

@@ -28,7 +28,7 @@ const ETIQUETAS: Record<string, string> = {
 };
 
 export default function Perfil() {
-  const { db, sesion, usuario, cerrarSesion, reiniciarDatos, actualizar, registrar, notificar } = useApp();
+  const { db, sesion, usuario, cerrarSesion, reiniciarDatos, actualizar, registrar, notificar, puede } = useApp();
   const navegar = useNavigate();
   const [hojaAdmin, setHojaAdmin] = useState(false);
   const [nuevo, setNuevo] = useState({ nombre: "", apellido: "", correo: "", telefono: "", password: "", confirmar: "" });
@@ -114,13 +114,32 @@ export default function Perfil() {
       </div>
 
       <div className="mb-4 rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 p-4 shadow-sm">
-        <h2 className="mb-2 text-sm font-bold uppercase tracking-wide text-stone-500 dark:text-stone-400">Mis permisos</h2>
+        <h2 className="mb-1 text-sm font-bold uppercase tracking-wide text-stone-500 dark:text-stone-400">Mis permisos</h2>
+        <p className="mb-2 text-xs text-stone-500 dark:text-stone-400">
+          Tu rol {sesion.rol} en el plan {plan?.nombre ?? "—"}.
+        </p>
         <ul className="space-y-1.5">
-          {permisos.map((p) => (
-            <li key={p} className="flex items-center gap-2 text-sm text-stone-700 dark:text-stone-200">
-              <span className="text-campo-700 dark:text-campo-300">✓</span> {ETIQUETAS[p] ?? p}
-            </li>
-          ))}
+          {permisos.map((p) => {
+            const activo = puede(p);
+            return (
+              <li key={p} className="flex items-center gap-2 text-sm">
+                {activo ? (
+                  <>
+                    <span className="text-campo-700 dark:text-campo-300">✓</span>
+                    <span className="text-stone-700 dark:text-stone-200">{ETIQUETAS[p] ?? p}</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="text-stone-400 dark:text-stone-500">🚫</span>
+                    <span className="text-stone-400 line-through dark:text-stone-500">{ETIQUETAS[p] ?? p}</span>
+                    <span className="ml-auto rounded-full bg-stone-100 px-2 py-0.5 text-[11px] font-semibold text-stone-500 dark:bg-stone-700 dark:text-stone-400">
+                      sin plan {plan?.nombre ?? ""}
+                    </span>
+                  </>
+                )}
+              </li>
+            );
+          })}
         </ul>
       </div>
 
