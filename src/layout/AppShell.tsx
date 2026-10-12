@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useApp } from "../context/AppContext";
-import { HojaInferior } from "../components/ui";
+import { HojaInferior, Toasts } from "../components/ui";
 import type { Rol } from "../types";
 
 interface Tab {
@@ -51,7 +51,7 @@ const ACCIONES: Record<Rol, { to: string; icono: string; texto: string }[]> = {
 };
 
 export function AppShell({ children }: { children: ReactNode }) {
-  const { sesion, empresaVencida, toast } = useApp();
+  const { sesion, empresaVencida, toasts, descartarToast, alertasNoLeidas } = useApp();
   const navegar = useNavigate();
   const { pathname } = useLocation();
   const [hojaAcciones, setHojaAcciones] = useState(false);
@@ -114,7 +114,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               <NavLink
                 to={t.to}
                 className={({ isActive }) =>
-                  `flex min-h-16 flex-col items-center justify-center gap-0.5 text-[11px] font-semibold transition ${
+                  `relative flex min-h-16 flex-col items-center justify-center gap-0.5 text-[11px] font-semibold transition ${
                     isActive ? "text-campo-800 dark:text-campo-200" : "text-stone-500 dark:text-stone-400 hover:text-stone-700"
                   }`
                 }
@@ -123,6 +123,11 @@ export function AppShell({ children }: { children: ReactNode }) {
                   <>
                     <span className={`text-lg ${isActive ? "" : "opacity-70"}`}>{t.icono}</span>
                     <span>{t.texto}</span>
+                    {t.to === "/alertas" && alertasNoLeidas > 0 && (
+                      <span className="absolute right-[calc(50%-1.5rem)] top-1.5 min-w-[18px] rounded-full bg-red-600 px-1 text-center text-[10px] font-bold leading-[18px] text-white shadow">
+                        {alertasNoLeidas > 9 ? "9+" : alertasNoLeidas}
+                      </span>
+                    )}
                   </>
                 )}
               </NavLink>
@@ -131,20 +136,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         </ul>
       </nav>
 
-      {toast && (
-        <div
-          role="status"
-          className={`fixed left-1/2 z-[60] w-[90%] max-w-md -translate-x-1/2 animate-fade-in rounded-xl px-4 py-3 text-sm font-semibold text-white shadow-lg top-[calc(env(safe-area-inset-top)+1rem)] ${
-            toast.tipo === "error"
-              ? "bg-red-600"
-              : toast.tipo === "info"
-                ? "bg-stone-800"
-                : "bg-campo-800"
-          }`}
-        >
-          {toast.mensaje}
-        </div>
-      )}
+      <Toasts toasts={toasts} onDescartar={descartarToast} />
     </div>
   );
 }

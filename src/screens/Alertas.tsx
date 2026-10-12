@@ -1,18 +1,21 @@
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "../context/AppContext";
-import { generarAlertas } from "../lib/calc";
 import type { Severidad } from "../types";
 import { EstadoVacio, HojaInferior, TarjetaAlerta, TituloPantalla } from "../components/ui";
 
 const SEVERIDADES: Severidad[] = ["ALTA", "MEDIA", "BAJA", "INFORMATIVA"];
 
 export default function Alertas() {
-  const { db } = useApp();
+  const { alertas: todas, marcarAlertasLeidas } = useApp();
   const navegar = useNavigate();
-  const todas = useMemo(() => generarAlertas(db), [db]);
   const [severidad, setSeveridad] = useState("");
   const [hoja, setHoja] = useState(false);
+
+  // al abrir la pantalla las alertas dejan de contar como pendientes
+  useEffect(() => {
+    marcarAlertasLeidas();
+  }, [marcarAlertasLeidas]);
 
   const filtradas = severidad ? todas.filter((a) => a.severidad === severidad) : todas;
   const porSeveridad = SEVERIDADES.map((s) => ({ s, n: todas.filter((a) => a.severidad === s).length }));

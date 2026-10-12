@@ -80,6 +80,38 @@ textarea {
   animation: fade-in 0.15s ease-out;
 }
 
+/* Entrada de los toasts desde la parte superior */
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(-14px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-toast-in {
+  animation: toast-in 0.22s ease-out;
+}
+
+/* Barra de progreso que marca el tiempo restante del toast */
+@keyframes barra-cuenta {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+.animate-barra-cuenta {
+  animation-name: barra-cuenta;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
 /* Flotación sutil de los manejos del fondo de autenticación */
 @keyframes float {
   0%,

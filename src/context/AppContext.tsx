@@ -4,15 +4,17 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
 import seed from "../data/db.json";
-import { PERMISOS_POR_ROL, type Permiso, type Sesion, type DB, type Usuario } from "../types";
+import { PERMISOS_POR_ROL, type AlertaGenerada, type Permiso, type Sesion, type DB, type Usuario } from "../types";
 import { cargarDB, guardarDB, reiniciarDB, registrarBitacora } from "../lib/db";
-import { uid } from "../lib/format";
+import { DURACION_TOAST, uid } from "../lib/format";
+import { generarAlertas } from "../lib/calc";
 
-interface Toast {
+export interface Toast {
   id: string;
   mensaje: string;
   tipo: "exito" | "error" | "info";
@@ -31,8 +33,12 @@ interface Ctx {
   actualizar: (fn: (db: DB) => DB) => void;
   registrar: (accion: string, entidad: string, entidadId: string, anterior?: string | null, nuevo?: string | null) => void;
   reiniciarDatos: () => void;
-  toast: Toast | null;
+  toasts: Toast[];
   notificar: (mensaje: string, tipo?: Toast["tipo"]) => void;
+  descartarToast: (id: string) => void;
+  alertas: AlertaGenerada[];
+  alertasNoLeidas: number;
+  marcarAlertasLeidas: () => void;
   tema: Tema;
   alternarTema: () => void;
 }
@@ -41,6 +47,17 @@ const AppCtx = createContext<Ctx | null>(null);
 
 const SESION_KEY = "rentabilidad-agricola-sesion-v1";
 const TEMA_KEY = "rentabilidad-agricola-tema";
+const LEIDAS_KEY = "rentabilidad-agricola-alertas-leidas-v1";
+
+function leerLeidas(): string[] {
+  try {
+    const raw = localStorage.getItem(LEIDAS_KEY);
+    const v = raw ? (JSON.parse(raw) as unknown) : null;
+    return Array.isArray(v) ? v.filter((x): x is string => typeof x === "string") : [];
+  } catch {
+    return [];
+  }
+}
 
 function leerSesion(): Sesion | null {
   try {
@@ -64,8 +81,10 @@ function leerTema(): Tema {
 export function AppProvider({ children }: { children: ReactNode }) {
   const [db, setDb] = useState<DB>(() => cargarDB());
   const [sesion, setSesion] = useState<Sesion | null>(() => leerSesion());
-  const [toast, setToast] = useState<Toast | null>(null);
+  const [toasts, setToasts] = useState<Toast[]>([]);
   const [tema, setTema] = useState<Tema>(() => leerTema());
+  const [leidas, setLeidas] = useState<string[]>(() => leerLeidas());
+  const [tick, setTick] = useState(0);
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", tema === "oscuro");
@@ -101,9 +120,61 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const notificar = useCallback((mensaje: string, tipo: Toast["tipo"] = "exito") => {
     const id = uid("t");
-    setToast({ id, mensaje, tipo });
-    window.setTimeout(() => setToast((t) => (t && t.id === id ? null : t)), 2800);
+    setToasts((t) => [...t, { id, mensaje, tipo }].slice(-3));
+    window.setTimeout(
+      () => setToasts((t) => t.filter((x) => x.id !== id)),
+      DURACION_TOAST[tipo],
+    );
   }, []);
+
+  const descartarToast = useCallback((id: string) => {
+    setToasts((t) => t.filter((x) => x.id !== id));
+  }, []);
+
+  /* ---- alertas "en tiempo real": recalculan ante cada cambio de datos
+         y cada 60 s (vencimientos dependen del reloj) ---- */
+  useEffect(() => {
+    const i = window.setInterval(() => setTick((t) => t + 1), 60_000);
+    return () => window.clearInterval(i);
+  }, []);
+
+  const alertas = useMemo(() => generarAlertas(db), [db, tick]);
+
+  const alertasNoLeidas = useMemo(
+    () => alertas.filter((a) => !leidas.includes(a.id)).length,
+    [alertas, leidas],
+  );
+
+  const marcarAlertasLeidas = useCallback(() => {
+    const ids = alertas.map((a) => a.id);
+    setLeidas(ids);
+    try {
+      localStorage.setItem(LEIDAS_KEY, JSON.stringify(ids));
+    } catch {
+      /* modo privado: no se persiste */
+    }
+  }, [alertas]);
+
+  /* avisos automáticos cuando aparece una alerta nueva (ALTA/MEDIA) */
+  const alertasPrevias = useRef<string[] | null>(null);
+  useEffect(() => {
+    const actuales = alertas.map((a) => a.id);
+    const anteriores = alertasPrevias.current;
+    alertasPrevias.current = actuales;
+    if (!anteriores) return;
+    const veAlertas = sesion && PERMISOS_POR_ROL[sesion.rol].includes("reporte:ver");
+    if (!veAlertas) return;
+    const nuevas = alertas.filter(
+      (a) =>
+        !anteriores.includes(a.id) &&
+        !leidas.includes(a.id) &&
+        (a.severidad === "ALTA" || a.severidad === "MEDIA"),
+    );
+    nuevas.slice(0, 2).forEach((a) => {
+      const texto = `${a.tipo}: ${a.mensaje}`;
+      notificar(texto.length > 145 ? `${texto.slice(0, 145)}…` : texto, "info");
+    });
+  }, [alertas, sesion, leidas, notificar]);
 
   const registrar = useCallback(
     (
@@ -174,8 +245,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
     actualizar,
     registrar,
     reiniciarDatos,
-    toast,
+    toasts,
     notificar,
+    descartarToast,
+    alertas,
+    alertasNoLeidas,
+    marcarAlertasLeidas,
     tema,
     alternarTema,
   };

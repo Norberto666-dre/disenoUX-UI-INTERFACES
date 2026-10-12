@@ -4,8 +4,8 @@ import {
   type ChangeEvent,
   type ReactNode,
 } from "react";
-import { useApp } from "../context/AppContext";
-import { money, num, round2 } from "../lib/format";
+import { useApp, type Toast } from "../context/AppContext";
+import { DURACION_TOAST, money, num, round2 } from "../lib/format";
 
 /* ---------------- Botón ---------------- */
 
@@ -781,6 +781,45 @@ export function TemaInterruptor() {
         />
       </span>
     </button>
+  );
+}
+
+/* ---------------- Toasts (pila animada con barra de tiempo) ---------------- */
+
+const ESTILO_TOAST: Record<Toast["tipo"], { icono: string; fondo: string; barra: string }> = {
+  exito: { icono: "✓", fondo: "bg-campo-800", barra: "bg-campo-300" },
+  error: { icono: "⚠", fondo: "bg-red-600", barra: "bg-red-200" },
+  info: { icono: "🔔", fondo: "bg-stone-800", barra: "bg-amber-300" },
+};
+
+export function Toasts({ toasts, onDescartar }: { toasts: Toast[]; onDescartar: (id: string) => void }) {
+  if (toasts.length === 0) return null;
+  return (
+    <div
+      aria-live="polite"
+      className="pointer-events-none fixed inset-x-0 top-0 z-[60] flex flex-col items-center gap-2 px-3 pt-[calc(env(safe-area-inset-top)+0.75rem)]"
+    >
+      {toasts.map((t) => {
+        const cfg = ESTILO_TOAST[t.tipo];
+        return (
+          <button
+            key={t.id}
+            role="status"
+            onClick={() => onDescartar(t.id)}
+            className={`pointer-events-auto relative flex w-full max-w-md animate-toast-in items-start gap-3 overflow-hidden rounded-xl px-4 py-3 text-left text-sm font-semibold text-white shadow-xl ${cfg.fondo}`}
+          >
+            <span aria-hidden className="mt-0.5 shrink-0">{cfg.icono}</span>
+            <span className="min-w-0 flex-1">{t.mensaje}</span>
+            <span aria-hidden className="mt-0.5 shrink-0 text-white/60">✕</span>
+            <span
+              aria-hidden
+              className={`absolute bottom-0 left-0 h-0.5 animate-barra-cuenta ${cfg.barra}`}
+              style={{ animationDuration: `${DURACION_TOAST[t.tipo]}ms` }}
+            />
+          </button>
+        );
+      })}
+    </div>
   );
 }
 

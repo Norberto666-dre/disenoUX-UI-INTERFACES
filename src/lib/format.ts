@@ -1,3 +1,6 @@
+/** Duración (ms) que cada toast permanece visible según su tipo. */
+export const DURACION_TOAST = { exito: 3000, info: 4000, error: 5000 } as const;
+
 /** Redondeo "mitad hacia arriba" con 2 decimales (RN-066). */
 export function round2(n: number): number {
   return Math.round((n + Number.EPSILON) * 100) / 100;
