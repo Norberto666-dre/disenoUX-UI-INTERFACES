@@ -1,14 +1,17 @@
 import type { ChangeEvent, ReactNode } from "react";
+import fondoLogin from "../assets/fondo-login.jpeg";
 
-/* Fondo abstracto con degradado difuso en la paleta campo */
+/* Fondo minimalista: foto de campo desenfocada + velo verde para legibilidad */
 export function FondoCristal() {
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 overflow-hidden bg-gradient-to-br from-campo-950 via-campo-900 to-campo-700">
-      <div className="absolute -left-24 -top-24 h-96 w-96 animate-float rounded-full bg-campo-400/30 blur-3xl" />
-      <div className="absolute -right-32 top-1/4 h-[28rem] w-[28rem] animate-float-slow rounded-full bg-campo-500/25 blur-3xl" />
-      <div className="absolute -bottom-40 left-1/4 h-96 w-96 animate-float-slower rounded-full bg-amber-300/15 blur-3xl" />
-      <div className="absolute bottom-1/4 right-10 h-64 w-64 animate-float rounded-full bg-campo-300/20 blur-3xl" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,transparent_35%,rgba(10,61,28,0.55)_100%)]" />
+    <div aria-hidden className="pointer-events-none fixed inset-0 overflow-hidden bg-campo-950">
+      <img
+        src={fondoLogin}
+        alt=""
+        className="absolute inset-0 h-full w-full scale-110 object-cover blur-[6px]"
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-campo-950/55 via-campo-950/25 to-campo-950/65" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,transparent_35%,rgba(10,61,28,0.45)_100%)]" />
     </div>
   );
 }
