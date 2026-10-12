@@ -1,7 +1,8 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "../context/AppContext";
 import { diasEntre, fecha, hoyIso } from "../lib/format";
-import { FilaDato, TituloPantalla } from "../components/ui";
+import { Boton, Campo, FilaDato, HojaInferior, TituloPantalla } from "../components/ui";
 import type { Plan } from "../types";
 
 type Marca = "si" | "no";
@@ -38,8 +39,14 @@ function Celda({ v }: { v: Marca | string }) {
   return <span className="text-[11px] font-semibold text-stone-700 dark:text-stone-200">{v}</span>;
 }
 
+function sumar30(iso: string | null): string {
+  const base = iso ? new Date(iso + "T00:00:00") : new Date();
+  base.setDate(base.getDate() + 30);
+  return `${base.getFullYear()}-${String(base.getMonth() + 1).padStart(2, "0")}-${String(base.getDate()).padStart(2, "0")}`;
+}
+
 export default function Planes() {
-  const { db, sesion } = useApp();
+  const { db, sesion, actualizar, registrar, notificar } = useApp();
   const navegar = useNavigate();
   const empresa = db.empresa;
   const planActual = db.planes.find((p) => p.id === empresa.planId);
@@ -48,6 +55,65 @@ export default function Planes() {
   const diasRestantes =
     empresa.suscripcionVence !== null ? diasEntre(hoyIso(), empresa.suscripcionVence) : null;
   const esAdmin = sesion?.rol === "ADMIN";
+
+  const [destino, setDestino] = useState<Plan | null>(null);
+  const [paso, setPaso] = useState<"resumen" | "pago">("resumen");
+  const [procesando, setProcesando] = useState(false);
+  const [tarjeta, setTarjeta] = useState({ titular: "", numero: "", vence: "", cvv: "" });
+  const [errores, setErrores] = useState<Record<string, string>>({});
+
+  const nuevaVence = empresa.suscripcionVence === null ? hoyIso() : sumar30(empresa.suscripcionVence);
+
+  const abrirCambio = (p: Plan) => {
+    if (p.id === empresa.planId) return;
+    if (parcelas > p.maxParcelas || usuarios > p.maxUsuarios) {
+      notificar(
+        `No puedes cambiar al plan ${p.nombre}: usas ${parcelas} parcelas y ${usuarios} usuario(s), y solo permite ${p.maxParcelas} / ${p.maxUsuarios}.`,
+        "error",
+      );
+      return;
+    }
+    setTarjeta({ titular: "", numero: "", vence: "", cvv: "" });
+    setErrores({});
+    setPaso("resumen");
+    setDestino(p);
+  };
+
+  const cerrarHoja = () => {
+    if (procesando) return;
+    setDestino(null);
+    setPaso("resumen");
+  };
+
+  const validarPago = () => {
+    const e: Record<string, string> = {};
+    if (!tarjeta.titular.trim()) e.titular = "Captura el nombre del titular.";
+    const digitos = tarjeta.numero.replace(/\D/g, "");
+    if (digitos.length < 12 || digitos.length > 19) e.numero = "Debe tener de 12 a 16 dígitos.";
+    if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(tarjeta.vence)) e.vence = "Usa el formato MM/AA.";
+    if (!/^\d{3,4}$/.test(tarjeta.cvv)) e.cvv = "El CVV tiene 3 o 4 dígitos.";
+    setErrores(e);
+    return Object.keys(e).length === 0;
+  };
+
+  const pagar = () => {
+    if (!destino || procesando) return;
+    if (!validarPago()) return;
+    setProcesando(true);
+    window.setTimeout(() => {
+      const anterior = planActual?.nombre ?? "—";
+      const destinoRef = destino;
+      actualizar((prev) => ({
+        ...prev,
+        empresa: { ...prev.empresa, planId: destinoRef.id, suscripcionVence: nuevaVence },
+      }));
+      registrar("CAMBIAR_PLAN", "Empresa", destinoRef.id, anterior, destinoRef.nombre);
+      notificar(`¡Pago aplicado! Tu empresa ahora está en el plan ${destinoRef.nombre}.`);
+      setProcesando(false);
+      setDestino(null);
+      setPaso("resumen");
+    }, 600);
+  };
 
   const agrupadas: { grupo: string; filas: FilaPlan[] }[] = [];
   for (const f of FILAS) {
@@ -160,6 +226,11 @@ export default function Planes() {
                 Hasta {p.maxParcelas} parcelas · {p.maxUsuarios} usuarios ·{" "}
                 {p.incluyeReportes ? "reportes y alertas incluidos" : "sin reportes ni alertas"}
               </p>
+              {esActual ? null : esAdmin ? (
+                <Boton variante="secundario" className="mt-3 w-full" onClick={() => abrirCambio(p)}>
+                  Cambiar a {p.nombre}
+                </Boton>
+              ) : null}
             </div>
           );
         })}
@@ -170,6 +241,89 @@ export default function Planes() {
           Solo el administrador puede comprar o cambiar el plan. Pídele el cambio a tu administrador.
         </p>
       )}
+
+      <HojaInferior
+        abierto={destino !== null}
+        onCerrar={cerrarHoja}
+        titulo={paso === "resumen" ? `Cambiar al plan ${destino?.nombre ?? ""}` : "Pago (demo)"}
+      >
+        {destino && paso === "resumen" && (
+          <div className="space-y-3 pb-6">
+            <div className="rounded-xl border border-stone-200 bg-stone-50 p-3 text-sm dark:border-stone-700 dark:bg-stone-900/50">
+              <div className="mb-2 flex items-center justify-between">
+                <span className="font-bold text-stone-900 dark:text-stone-100">{destino.nombre}</span>
+                <span className="font-bold text-campo-800 dark:text-campo-200">
+                  ${destino.precioMensual} / mes
+                </span>
+              </div>
+              <FilaDato etiqueta="Ahora" valor={planActual?.nombre ?? "—"} />
+              <FilaDato etiqueta="Parcelas" valor={`${destino.maxParcelas} (${parcelas} en uso)`} />
+              <FilaDato etiqueta="Usuarios" valor={`${destino.maxUsuarios} (${usuarios} en uso)`} />
+              <FilaDato etiqueta="Reportes y alertas" valor={destino.incluyeReportes ? "Incluidos" : "Sin incluir"} />
+              <FilaDato etiqueta="Próxima renovación" valor={fecha(nuevaVence)} />
+            </div>
+            <p className="rounded-xl border border-campo-300 bg-campo-50 px-3 py-2 text-xs text-campo-800 dark:border-campo-700 dark:bg-campo-900/50 dark:text-campo-200">
+              Las funciones y límites del nuevo plan se aplican de inmediato en toda la app.
+            </p>
+            <Boton className="w-full" onClick={() => setPaso("pago")}>
+              Continuar al pago de ${destino.precioMensual}
+            </Boton>
+          </div>
+        )}
+
+        {destino && paso === "pago" && (
+          <div className="space-y-3 pb-6">
+            <p className="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800 dark:border-amber-800 dark:bg-amber-950/50 dark:text-amber-200">
+              🧪 Pago simulado para demostración: no se realiza ningún cargo real.
+            </p>
+            <Campo
+              etiqueta="Titular de la tarjeta"
+              valor={tarjeta.titular}
+              onChange={(v) => setTarjeta((t) => ({ ...t, titular: v }))}
+              placeholder="Nombre como aparece en la tarjeta"
+              error={errores.titular}
+              obligatorio
+            />
+            <Campo
+              etiqueta="Número de tarjeta"
+              valor={tarjeta.numero}
+              onChange={(v) => setTarjeta((t) => ({ ...t, numero: v.replace(/[^\d ]/g, "").slice(0, 19) }))}
+              placeholder="4242 4242 4242 4242"
+              tipo="tel"
+              autoComplete="cc-number"
+              error={errores.numero}
+              obligatorio
+            />
+            <div className="grid grid-cols-2 gap-3">
+              <Campo
+                etiqueta="Vence"
+                valor={tarjeta.vence}
+                onChange={(v) => setTarjeta((t) => ({ ...t, vence: v.slice(0, 5) }))}
+                placeholder="MM/AA"
+                tipo="tel"
+                error={errores.vence}
+                obligatorio
+              />
+              <Campo
+                etiqueta="CVV"
+                valor={tarjeta.cvv}
+                onChange={(v) => setTarjeta((t) => ({ ...t, cvv: v.replace(/\D/g, "").slice(0, 4) }))}
+                placeholder="123"
+                tipo="tel"
+                autoComplete="cc-csc"
+                error={errores.cvv}
+                obligatorio
+              />
+            </div>
+            <Boton className="w-full" onClick={pagar} disabled={procesando}>
+              {procesando ? "Procesando…" : `Pagar $${destino.precioMensual} / mes`}
+            </Boton>
+            <Boton variante="fantasma" className="w-full" onClick={() => setPaso("resumen")} disabled={procesando}>
+              Volver al resumen
+            </Boton>
+          </div>
+        )}
+      </HojaInferior>
     </div>
   );
 }
