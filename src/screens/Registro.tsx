@@ -6,7 +6,6 @@ import type { Rol } from "../types";
 import { BotonCristal, CampoCristal, FondoCristal, SelectorCristal, TarjetaCristal } from "../components/AuthCristal";
 
 const ROLES = [
-  { valor: "ADMIN", texto: "Administrador — control total" },
   { valor: "CAPTURISTA", texto: "Capturista — registros de campo" },
   { valor: "CONTADOR", texto: "Contador — finanzas y ventas" },
 ];
@@ -135,8 +134,8 @@ export default function Registro() {
                 </div>
                 <SelectorCristal etiqueta="Rol" valor={rol} onChange={(v) => setRol(v as Rol)} opciones={ROLES} />
                 <p className="rounded-xl border border-white/15 bg-black/15 px-3 py-2 text-xs text-white/75 backdrop-blur-sm">
-                  En el MVP cada quien elige su rol. En producción el administrador asigna los roles
-                  y la licencia define cuántos usuarios caben en el plan.
+                  Por seguridad, las cuentas de administrador solo las crea el administrador desde
+                  su perfil. La licencia define cuántos usuarios caben en el plan.
                 </p>
                 <BotonCristal tipo="submit" disabled={enviando}>
                   {enviando ? "Creando cuenta…" : "Crear cuenta"}
