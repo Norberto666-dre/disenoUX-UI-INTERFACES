@@ -42,6 +42,21 @@ export default function Mas() {
       <ul className="space-y-2">
         <li>
           <button
+            onClick={() => navegar("/mas/planes")}
+            className="flex w-full items-center gap-3 rounded-2xl border border-campo-300 dark:border-campo-700 bg-campo-50 dark:bg-campo-900/50 px-4 py-3 text-left shadow-sm hover:bg-campo-100 dark:hover:bg-campo-900"
+          >
+            <span className="text-xl">💳</span>
+            <span className="min-w-0">
+              <span className="block font-semibold text-campo-900 dark:text-campo-100">Planes</span>
+              <span className="block truncate text-sm text-campo-700 dark:text-campo-300">
+                Funciones, límites y cambio de plan
+              </span>
+            </span>
+            <span className="ml-auto text-campo-500 dark:text-campo-400">›</span>
+          </button>
+        </li>
+        <li>
+          <button
             onClick={() => navegar("/mas/ayuda")}
             className="flex w-full items-center gap-3 rounded-2xl border border-campo-300 dark:border-campo-700 bg-campo-50 dark:bg-campo-900/50 px-4 py-3 text-left shadow-sm hover:bg-campo-100 dark:hover:bg-campo-900"
           >

@@ -67,7 +67,15 @@ export default function Empresa() {
       )}
 
       <div className="mb-4 rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 p-4 shadow-sm">
-        <h2 className="mb-1 text-sm font-bold uppercase tracking-wide text-stone-500 dark:text-stone-400">Plan</h2>
+        <div className="mb-1 flex items-center justify-between gap-2">
+          <h2 className="text-sm font-bold uppercase tracking-wide text-stone-500 dark:text-stone-400">Plan</h2>
+          <button
+            onClick={() => navegar("/mas/planes")}
+            className="text-xs font-semibold text-campo-700 hover:text-campo-900 dark:text-campo-300 dark:hover:text-campo-100"
+          >
+            Ver y cambiar de plan ›
+          </button>
+        </div>
         <FilaDato etiqueta="Plan actual" valor={plan?.nombre ?? "—"} />
         <FilaDato etiqueta="Precio" valor={`$${plan?.precioMensual ?? 0} / mes`} />
         <FilaDato etiqueta="Parcelas" valor={`${parcelas} de ${plan?.maxParcelas ?? 0}`} />

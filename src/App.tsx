@@ -29,6 +29,7 @@ import MisRegistros from "./screens/MisRegistros";
 import Perfil from "./screens/Perfil";
 import Mas from "./screens/Mas";
 import Ayuda from "./screens/Ayuda";
+import Planes from "./screens/Planes";
 import Empresa from "./screens/Empresa";
 import Finanzas from "./screens/Finanzas";
 
@@ -83,6 +84,7 @@ export default function App() {
       <Route path="/perfil" element={<Protegido><Perfil /></Protegido>} />
       <Route path="/mas" element={<Protegido><Mas /></Protegido>} />
       <Route path="/mas/ayuda" element={<Protegido><Ayuda /></Protegido>} />
+      <Route path="/mas/planes" element={<Protegido><Planes /></Protegido>} />
       <Route path="/mas/empresa" element={<Protegido permiso="empresa:administrar"><Empresa /></Protegido>} />
 
       <Route path="*" element={<Navigate to="/" replace />} />
