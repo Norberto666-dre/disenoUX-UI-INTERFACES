@@ -59,14 +59,9 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   const tabs = TABS[sesion.rol];
   const acciones = ACCIONES[sesion.rol];
-  const enFormulario =
-    pathname.startsWith("/capturas/") ||
-    pathname.endsWith("/nuevo") ||
-    pathname.endsWith("/nueva") ||
-    pathname.endsWith("/cerrar") ||
-    pathname.endsWith("/ayuda") ||
-    pathname.endsWith("/empresa");
-  const mostrarFab = acciones.length > 0 && !enFormulario;
+  // el botón flotante de nueva captura solo vive en la tab de Inicio
+  const enInicio = pathname === "/tablero" || pathname === "/inicio";
+  const mostrarFab = acciones.length > 0 && enInicio;
 
   return (
     <div className="relative mx-auto flex min-h-screen w-full max-w-md flex-col bg-stone-100 dark:bg-stone-900 shadow-2xl">
