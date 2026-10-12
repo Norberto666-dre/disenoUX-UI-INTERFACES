@@ -1,4 +1,4 @@
-const CACHE = "rentabilidad-agricola-v1";
+const CACHE = "rentabilidad-agricola-v2";
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

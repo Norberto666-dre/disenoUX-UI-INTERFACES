@@ -4,6 +4,7 @@ import { useApp } from "../context/AppContext";
 import { uid } from "../lib/format";
 import type { Rol } from "../types";
 import { BotonCristal, CampoCristal, FondoCristal, SelectorCristal, TarjetaCristal } from "../components/AuthCristal";
+import logo from "../assets/logo_agri.svg";
 
 const ROLES = [
   { valor: "CAPTURISTA", texto: "Capturista — registros de campo" },
@@ -80,7 +81,9 @@ export default function Registro() {
 
       <div className="relative w-full max-w-md py-8">
         <div className="mb-6 text-center">
-          <span className="text-5xl drop-shadow-lg">🌾</span>
+          <span className="inline-flex h-24 w-24 items-center justify-center rounded-3xl bg-white/95 p-3 shadow-lg">
+            <img src={logo} alt="Logo de Rentabilidad Agrícola" className="h-full w-auto" />
+          </span>
           <h1 className="mt-3 text-3xl font-bold tracking-tight text-white drop-shadow">Crear cuenta</h1>
           <p className="mt-1 text-sm font-medium text-white/70">{db.empresa.nombre}</p>
         </div>
