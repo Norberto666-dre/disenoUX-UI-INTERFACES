@@ -1,0 +1,1257 @@
+{
+  "empresa": {
+    "id": "emp1",
+    "nombre": "Rancho Los Pinos",
+    "razonSocial": "Ramón Ortega S.P.R. de R.L.",
+    "rfc": "OERA700101XX0",
+    "correo": "ramon@correo.com",
+    "telefono": "951 555 0100",
+    "direccion": "Camino a la presa km 3, Zimatlán, Oaxaca",
+    "planId": "plan2",
+    "estado": "ACTIVA",
+    "suscripcionVence": "2027-01-01",
+    "moneda": "MXN"
+  },
+  "planes": [
+    {
+      "id": "plan1",
+      "codigo": "BASICO",
+      "nombre": "Básico",
+      "precioMensual": 299,
+      "maxParcelas": 3,
+      "maxUsuarios": 2,
+      "incluyeReportes": false,
+      "activo": true
+    },
+    {
+      "id": "plan2",
+      "codigo": "PRODUCTOR",
+      "nombre": "Productor",
+      "precioMensual": 599,
+      "maxParcelas": 10,
+      "maxUsuarios": 5,
+      "incluyeReportes": true,
+      "activo": true
+    },
+    {
+      "id": "plan3",
+      "codigo": "EMPRESA",
+      "nombre": "Profesional",
+      "precioMensual": 999,
+      "maxParcelas": 30,
+      "maxUsuarios": 15,
+      "incluyeReportes": true,
+      "activo": true
+    }
+  ],
+  "usuarios": [
+    {
+      "id": "u1",
+      "nombre": "Ramón",
+      "apellido": "Ortega",
+      "correo": "ramon@correo.com",
+      "telefono": "951 555 0101",
+      "rol": "ADMIN",
+      "password": "demo1234",
+      "activo": true,
+      "creadoEn": "2026-01-10T09:00:00",
+      "ultimoAcceso": null
+    },
+    {
+      "id": "u2",
+      "nombre": "Luis",
+      "apellido": "Pérez",
+      "correo": "luis@correo.com",
+      "telefono": "951 555 0102",
+      "rol": "CAPTURISTA",
+      "password": "demo1234",
+      "activo": true,
+      "creadoEn": "2026-01-12T09:00:00",
+      "ultimoAcceso": null
+    },
+    {
+      "id": "u3",
+      "nombre": "Marta",
+      "apellido": "Ruiz",
+      "correo": "marta@correo.com",
+      "telefono": "951 555 0103",
+      "rol": "CONTADOR",
+      "password": "demo1234",
+      "activo": true,
+      "creadoEn": "2026-01-15T09:00:00",
+      "ultimoAcceso": null
+    }
+  ],
+  "predios": [
+    {
+      "id": "pre1",
+      "nombre": "Rancho Norte",
+      "ubicacion": "Camino a la presa",
+      "municipio": "Zimatlán",
+      "entidad": "Oaxaca",
+      "superficieHa": 12,
+      "lat": 16.87,
+      "lng": -96.78,
+      "activo": true
+    }
+  ],
+  "parcelas": [
+    {
+      "id": "par1",
+      "predioId": "pre1",
+      "nombre": "Parcela 1",
+      "superficieHa": 4,
+      "estado": "DESCANSO",
+      "activo": true,
+      "tipoSueloId": "ts1",
+      "poligono": null
+    },
+    {
+      "id": "par2",
+      "predioId": "pre1",
+      "nombre": "Parcela 2",
+      "superficieHa": 5,
+      "estado": "DISPONIBLE",
+      "activo": true,
+      "tipoSueloId": "ts2",
+      "poligono": null
+    },
+    {
+      "id": "par3",
+      "predioId": "pre1",
+      "nombre": "Parcela 3",
+      "superficieHa": 3,
+      "estado": "EN_USO",
+      "activo": true,
+      "tipoSueloId": "ts3",
+      "poligono": null
+    }
+  ],
+  "variedades": [
+    {
+      "id": "var1",
+      "nombre": "Saladette",
+      "cultivoId": "cu1"
+    },
+    {
+      "id": "var2",
+      "nombre": "Blanco",
+      "cultivoId": "cu2"
+    },
+    {
+      "id": "var3",
+      "nombre": "Jalapeño",
+      "cultivoId": "cu3"
+    },
+    {
+      "id": "var4",
+      "nombre": "Italiano",
+      "cultivoId": "cu1"
+    }
+  ],
+  "ciclos": [
+    {
+      "id": "c0",
+      "parcelaId": "par3",
+      "variedadId": "var1",
+      "nombre": "Otoño 2025",
+      "fechaInicio": "2025-08-10",
+      "fechaFin": "2025-12-20",
+      "superficieSembradaHa": 2.5,
+      "metaKg": 9000,
+      "observaciones": "Riego por goteo",
+      "estado": "FINALIZADO",
+      "cerradoEn": "2025-12-20",
+      "cerradoPorId": "u1",
+      "creadoEn": "2025-08-01T10:00:00",
+      "empresaId": "emp1"
+    },
+    {
+      "id": "c1",
+      "parcelaId": "par3",
+      "variedadId": "var1",
+      "nombre": "Otoño 2026",
+      "fechaInicio": "2026-08-10",
+      "fechaFin": null,
+      "superficieSembradaHa": 2.5,
+      "metaKg": 9000,
+      "observaciones": "Riego por goteo, surcos a 1.2 m",
+      "estado": "ACTIVO",
+      "cerradoEn": null,
+      "cerradoPorId": null,
+      "creadoEn": "2026-08-01T10:00:00",
+      "empresaId": "emp1"
+    },
+    {
+      "id": "c2",
+      "parcelaId": "par2",
+      "variedadId": "var2",
+      "nombre": "Milpa invierno 2026",
+      "fechaInicio": "2026-09-01",
+      "fechaFin": null,
+      "superficieSembradaHa": 4,
+      "metaKg": 12000,
+      "observaciones": null,
+      "estado": "ACTIVO",
+      "cerradoEn": null,
+      "cerradoPorId": null,
+      "creadoEn": "2026-08-20T10:00:00",
+      "empresaId": "emp1"
+    },
+    {
+      "id": "c3",
+      "parcelaId": "par1",
+      "variedadId": "var3",
+      "nombre": "Invierno 2027",
+      "fechaInicio": "2027-01-05",
+      "fechaFin": null,
+      "superficieSembradaHa": 3,
+      "metaKg": null,
+      "observaciones": "Planeado con sistema de riego nuevo",
+      "estado": "PLANIFICADO",
+      "cerradoEn": null,
+      "cerradoPorId": null,
+      "creadoEn": "2026-10-01T10:00:00",
+      "empresaId": "emp1"
+    }
+  ],
+  "tiposActividad": [
+    {
+      "id": "ta1",
+      "nombre": "Siembra",
+      "icono": "🌱"
+    },
+    {
+      "id": "ta2",
+      "nombre": "Riego",
+      "icono": "💧"
+    },
+    {
+      "id": "ta3",
+      "nombre": "Fertilización",
+      "icono": "🧪"
+    },
+    {
+      "id": "ta4",
+      "nombre": "Poda",
+      "icono": "✂️"
+    },
+    {
+      "id": "ta5",
+      "nombre": "Control de plagas",
+      "icono": "🐛"
+    },
+    {
+      "id": "ta6",
+      "nombre": "Cosecha",
+      "icono": "🧺"
+    },
+    {
+      "id": "ta7",
+      "nombre": "Preparación de suelo",
+      "icono": "🚜"
+    }
+  ],
+  "actividades": [
+    {
+      "id": "ac1",
+      "cicloId": "c1",
+      "tipoActividadId": "ta7",
+      "fecha": "2026-08-05",
+      "descripcion": "Preparación de 2.5 ha con rastra",
+      "horas": 8,
+      "responsableId": "u2",
+      "creadoPorId": "u2",
+      "creadoEn": "2026-08-05T18:00:00",
+      "estado": "ACTIVA"
+    },
+    {
+      "id": "ac2",
+      "cicloId": "c1",
+      "tipoActividadId": "ta1",
+      "fecha": "2026-08-12",
+      "descripcion": "Trasplante de saladette",
+      "horas": 10,
+      "responsableId": "u2",
+      "creadoPorId": "u2",
+      "creadoEn": "2026-08-12T18:00:00",
+      "estado": "ACTIVA"
+    },
+    {
+      "id": "ac3",
+      "cicloId": "c1",
+      "tipoActividadId": "ta3",
+      "fecha": "2026-08-25",
+      "descripcion": "Aplicación de Triple 17, 4 surcos",
+      "horas": 6,
+      "responsableId": "u2",
+      "creadoPorId": "u2",
+      "creadoEn": "2026-08-25T18:00:00",
+      "estado": "ACTIVA"
+    },
+    {
+      "id": "ac4",
+      "cicloId": "c1",
+      "tipoActividadId": "ta2",
+      "fecha": "2026-09-01",
+      "descripcion": "Riego por goteo, 4 horas",
+      "horas": 4,
+      "responsableId": "u2",
+      "creadoPorId": "u2",
+      "creadoEn": "2026-09-01T18:00:00",
+      "estado": "ACTIVA"
+    },
+    {
+      "id": "ac5",
+      "cicloId": "c1",
+      "tipoActividadId": "ta5",
+      "fecha": "2026-09-10",
+      "descripcion": "Aplicación preventiva",
+      "horas": 3,
+      "responsableId": "u2",
+      "creadoPorId": "u2",
+      "creadoEn": "2026-09-10T18:00:00",
+      "estado": "ACTIVA"
+    },
+    {
+      "id": "ac6",
+      "cicloId": "c0",
+      "tipoActividadId": "ta1",
+      "fecha": "2025-08-08",
+      "descripcion": "Trasplante",
+      "horas": 10,
+      "responsableId": "u2",
+      "creadoPorId": "u2",
+      "creadoEn": "2025-08-08T18:00:00",
+      "estado": "ACTIVA"
+    }
+  ],
+  "categoriasGasto": [
+    {
+      "id": "cg1",
+      "nombre": "Insumos",
+      "parentId": null,
+      "esSistema": true
+    },
+    {
+      "id": "cg1a",
+      "nombre": "Semillas",
+      "parentId": "cg1",
+      "esSistema": true
+    },
+    {
+      "id": "cg1b",
+      "nombre": "Fertilizantes",
+      "parentId": "cg1",
+      "esSistema": true
+    },
+    {
+      "id": "cg1c",
+      "nombre": "Control de plagas",
+      "parentId": "cg1",
+      "esSistema": true
+    },
+    {
+      "id": "cg2",
+      "nombre": "Mano de obra",
+      "parentId": null,
+      "esSistema": true
+    },
+    {
+      "id": "cg2a",
+      "nombre": "Jornales",
+      "parentId": "cg2",
+      "esSistema": true
+    },
+    {
+      "id": "cg2b",
+      "nombre": "Supervisión",
+      "parentId": "cg2",
+      "esSistema": true
+    },
+    {
+      "id": "cg3",
+      "nombre": "Maquinaria",
+      "parentId": null,
+      "esSistema": true
+    },
+    {
+      "id": "cg3a",
+      "nombre": "Renta",
+      "parentId": "cg3",
+      "esSistema": true
+    },
+    {
+      "id": "cg3b",
+      "nombre": "Combustible",
+      "parentId": "cg3",
+      "esSistema": true
+    },
+    {
+      "id": "cg4",
+      "nombre": "Servicios",
+      "parentId": null,
+      "esSistema": true
+    },
+    {
+      "id": "cg4a",
+      "nombre": "Riego",
+      "parentId": "cg4",
+      "esSistema": true
+    },
+    {
+      "id": "cg4b",
+      "nombre": "Transporte",
+      "parentId": "cg4",
+      "esSistema": true
+    },
+    {
+      "id": "cg5",
+      "nombre": "Varios",
+      "parentId": null,
+      "esSistema": true
+    }
+  ],
+  "unidades": [
+    {
+      "id": "un1",
+      "clave": "UN1",
+      "nombre": "Kilogramo",
+      "abrev": "kg",
+      "tipo": "PESO",
+      "factorKg": 1
+    },
+    {
+      "id": "un2",
+      "clave": "UN2",
+      "nombre": "Caja 20 kg",
+      "abrev": "caja 20 kg",
+      "tipo": "PESO",
+      "factorKg": 20
+    },
+    {
+      "id": "un3",
+      "clave": "UN3",
+      "nombre": "Caja 25 kg",
+      "abrev": "caja 25 kg",
+      "tipo": "PESO",
+      "factorKg": 25
+    },
+    {
+      "id": "un4",
+      "clave": "UN4",
+      "nombre": "Costal 50 kg",
+      "abrev": "costal",
+      "tipo": "PESO",
+      "factorKg": 50
+    },
+    {
+      "id": "un5",
+      "clave": "UN5",
+      "nombre": "Tonelada",
+      "abrev": "t",
+      "tipo": "PESO",
+      "factorKg": 1000
+    },
+    {
+      "id": "un6",
+      "clave": "UN6",
+      "nombre": "Bolsa 5 kg",
+      "abrev": "bolsa",
+      "tipo": "PESO",
+      "factorKg": 5
+    },
+    {
+      "id": "un7",
+      "clave": "UN7",
+      "nombre": "Jornada",
+      "abrev": "jor",
+      "tipo": "OTRO",
+      "factorKg": 0
+    },
+    {
+      "id": "un8",
+      "clave": "UN8",
+      "nombre": "Hora",
+      "abrev": "hr",
+      "tipo": "OTRO",
+      "factorKg": 0
+    },
+    {
+      "id": "un9",
+      "clave": "UN9",
+      "nombre": "Servicio",
+      "abrev": "serv",
+      "tipo": "OTRO",
+      "factorKg": 0
+    },
+    {
+      "id": "un10",
+      "clave": "UN10",
+      "nombre": "Viaje",
+      "abrev": "viaje",
+      "tipo": "OTRO",
+      "factorKg": 0
+    }
+  ],
+  "gastos": [
+    {
+      "id": "g1",
+      "cicloId": "c1",
+      "fecha": "2026-08-10",
+      "categoriaId": "cg1a",
+      "proveedorId": "pr1",
+      "actividadId": "ac2",
+      "descripcion": "Semilla de tomate saladette, cajas de 25 kg",
+      "cantidad": 6,
+      "unidadId": "un3",
+      "costoUnitario": 450,
+      "impuesto": 0,
+      "totalPagado": 2700,
+      "comprobante": "A-3010",
+      "adjunto": null,
+      "creadoPorId": "u2",
+      "creadoEn": "2026-08-10T19:00:00",
+      "estado": "ACTIVO"
+    },
+    {
+      "id": "g2",
+      "cicloId": "c1",
+      "fecha": "2026-08-25",
+      "categoriaId": "cg1b",
+      "proveedorId": "pr1",
+      "actividadId": "ac3",
+      "descripcion": "Triple 17, bultos de 50 kg",
+      "cantidad": 20,
+      "unidadId": "un4",
+      "costoUnitario": 850,
+      "impuesto": 0,
+      "totalPagado": 17000,
+      "comprobante": "A-3481",
+      "adjunto": "factura-3481.jpg",
+      "creadoPorId": "u2",
+      "creadoEn": "2026-08-25T19:00:00",
+      "estado": "ACTIVO"
+    },
+    {
+      "id": "g3",
+      "cicloId": "c1",
+      "fecha": "2026-09-10",
+      "categoriaId": "cg1c",
+      "proveedorId": "pr3",
+      "actividadId": "ac5",
+      "descripcion": "Insecticida sistémico",
+      "cantidad": 12,
+      "unidadId": "un1",
+      "costoUnitario": 185,
+      "impuesto": 0,
+      "totalPagado": 2220,
+      "comprobante": "B-1120",
+      "adjunto": null,
+      "creadoPorId": "u2",
+      "creadoEn": "2026-09-10T19:00:00",
+      "estado": "ACTIVO"
+    },
+    {
+      "id": "g4",
+      "cicloId": "c1",
+      "fecha": "2026-09-15",
+      "categoriaId": "cg2a",
+      "proveedorId": null,
+      "actividadId": null,
+      "descripcion": "Jornales de limpieza y aporca",
+      "cantidad": 30,
+      "unidadId": "un7",
+      "costoUnitario": 180,
+      "impuesto": 0,
+      "totalPagado": 5400,
+      "comprobante": null,
+      "adjunto": null,
+      "creadoPorId": "u1",
+      "creadoEn": "2026-09-15T19:00:00",
+      "estado": "ACTIVO"
+    },
+    {
+      "id": "g5",
+      "cicloId": "c1",
+      "fecha": "2026-09-01",
+      "categoriaId": "cg4a",
+      "proveedorId": null,
+      "actividadId": "ac4",
+      "descripcion": "Bomba y mantenimiento del sistema de goteo",
+      "cantidad": 4,
+      "unidadId": "un9",
+      "costoUnitario": 950,
+      "impuesto": 0,
+      "totalPagado": 3800,
+      "comprobante": "C-0090",
+      "adjunto": null,
+      "creadoPorId": "u3",
+      "creadoEn": "2026-09-01T19:00:00",
+      "estado": "ACTIVO"
+    },
+    {
+      "id": "g6",
+      "cicloId": "c1",
+      "fecha": "2026-08-10",
+      "categoriaId": "cg3a",
+      "proveedorId": null,
+      "actividadId": "ac1",
+      "descripcion": "Renta de tractor con rastra",
+      "cantidad": 2,
+      "unidadId": "un8",
+      "costoUnitario": 900,
+      "impuesto": 0,
+      "totalPagado": 1800,
+      "comprobante": null,
+      "adjunto": null,
+      "creadoPorId": "u1",
+      "creadoEn": "2026-08-05T19:00:00",
+      "estado": "ACTIVO"
+    },
+    {
+      "id": "g7",
+      "cicloId": "c1",
+      "fecha": "2026-10-02",
+      "categoriaId": "cg4b",
+      "proveedorId": "pr2",
+      "actividadId": null,
+      "descripcion": "Flete de producto al centro de abastos",
+      "cantidad": 1,
+      "unidadId": "un10",
+      "costoUnitario": 1500,
+      "impuesto": 0,
+      "totalPagado": 1500,
+      "comprobante": "T-0044",
+      "adjunto": null,
+      "creadoPorId": "u3",
+      "creadoEn": "2026-10-02T19:00:00",
+      "estado": "ACTIVO"
+    },
+    {
+      "id": "g01",
+      "cicloId": "c0",
+      "fecha": "2025-08-12",
+      "categoriaId": "cg1b",
+      "proveedorId": "pr1",
+      "actividadId": null,
+      "descripcion": "Fertilizante base",
+      "cantidad": 15,
+      "unidadId": "un4",
+      "costoUnitario": 780,
+      "impuesto": 0,
+      "totalPagado": 11700,
+      "comprobante": "A-2201",
+      "adjunto": null,
+      "creadoPorId": "u2",
+      "creadoEn": "2025-08-12T19:00:00",
+      "estado": "ACTIVO"
+    },
+    {
+      "id": "g02",
+      "cicloId": "c0",
+      "fecha": "2025-09-01",
+      "categoriaId": "cg2a",
+      "proveedorId": null,
+      "actividadId": null,
+      "descripcion": "Jornales del ciclo",
+      "cantidad": 60,
+      "unidadId": "un7",
+      "costoUnitario": 170,
+      "impuesto": 0,
+      "totalPagado": 10200,
+      "comprobante": null,
+      "adjunto": null,
+      "creadoPorId": "u1",
+      "creadoEn": "2025-09-01T19:00:00",
+      "estado": "ACTIVO"
+    },
+    {
+      "id": "g03",
+      "cicloId": "c0",
+      "fecha": "2025-09-05",
+      "categoriaId": "cg4a",
+      "proveedorId": null,
+      "actividadId": null,
+      "descripcion": "Riego",
+      "cantidad": 5,
+      "unidadId": "un9",
+      "costoUnitario": 900,
+      "impuesto": 0,
+      "totalPagado": 4500,
+      "comprobante": null,
+      "adjunto": null,
+      "creadoPorId": "u3",
+      "creadoEn": "2025-09-05T19:00:00",
+      "estado": "ACTIVO"
+    },
+    {
+      "id": "g04",
+      "cicloId": "c0",
+      "fecha": "2025-08-10",
+      "categoriaId": "cg1a",
+      "proveedorId": "pr1",
+      "actividadId": null,
+      "descripcion": "Semilla",
+      "cantidad": 8,
+      "unidadId": "un3",
+      "costoUnitario": 400,
+      "impuesto": 0,
+      "totalPagado": 3200,
+      "comprobante": null,
+      "adjunto": null,
+      "creadoPorId": "u2",
+      "creadoEn": "2025-08-08T19:00:00",
+      "estado": "ACTIVO"
+    },
+    {
+      "id": "g05",
+      "cicloId": "c0",
+      "fecha": "2025-09-20",
+      "categoriaId": "cg1c",
+      "proveedorId": "pr3",
+      "actividadId": null,
+      "descripcion": "Control de plagas",
+      "cantidad": 14,
+      "unidadId": "un1",
+      "costoUnitario": 207.15,
+      "impuesto": 0,
+      "totalPagado": 2900.1,
+      "comprobante": null,
+      "adjunto": null,
+      "creadoPorId": "u2",
+      "creadoEn": "2025-09-20T19:00:00",
+      "estado": "ACTIVO"
+    },
+    {
+      "id": "g06",
+      "cicloId": "c0",
+      "fecha": "2025-10-05",
+      "categoriaId": "cg4b",
+      "proveedorId": "pr2",
+      "actividadId": null,
+      "descripcion": "Fletes a mercado",
+      "cantidad": 1,
+      "unidadId": "un10",
+      "costoUnitario": 2500,
+      "impuesto": 0,
+      "totalPagado": 2500,
+      "comprobante": null,
+      "adjunto": null,
+      "creadoPorId": "u3",
+      "creadoEn": "2025-10-05T19:00:00",
+      "estado": "ACTIVO"
+    }
+  ],
+  "cosechas": [
+    {
+      "id": "co1",
+      "cicloId": "c1",
+      "fecha": "2026-09-20",
+      "cantidad": 40,
+      "unidadId": "un2",
+      "calidad": "PRIMERA",
+      "observaciones": "Primer corte, buen tamaño",
+      "creadoPorId": "u2",
+      "creadoEn": "2026-09-20T17:00:00",
+      "estado": "ACTIVA"
+    },
+    {
+      "id": "co2",
+      "cicloId": "c1",
+      "fecha": "2026-09-28",
+      "cantidad": 50,
+      "unidadId": "un2",
+      "calidad": "PRIMERA",
+      "observaciones": "Segundo corte",
+      "creadoPorId": "u2",
+      "creadoEn": "2026-09-28T17:00:00",
+      "estado": "ACTIVA"
+    },
+    {
+      "id": "co3",
+      "cicloId": "c1",
+      "fecha": "2026-10-05",
+      "cantidad": 30,
+      "unidadId": "un2",
+      "calidad": "SEGUNDA",
+      "observaciones": "Fruto más pequeño",
+      "creadoPorId": "u2",
+      "creadoEn": "2026-10-05T17:00:00",
+      "estado": "ACTIVA"
+    },
+    {
+      "id": "co01",
+      "cicloId": "c0",
+      "fecha": "2025-09-25",
+      "cantidad": 2000,
+      "unidadId": "un1",
+      "calidad": "PRIMERA",
+      "observaciones": null,
+      "creadoPorId": "u2",
+      "creadoEn": "2025-09-25T17:00:00",
+      "estado": "ACTIVA"
+    },
+    {
+      "id": "co02",
+      "cicloId": "c0",
+      "fecha": "2025-10-10",
+      "cantidad": 2200,
+      "unidadId": "un1",
+      "calidad": "PRIMERA",
+      "observaciones": null,
+      "creadoPorId": "u2",
+      "creadoEn": "2025-10-10T17:00:00",
+      "estado": "ACTIVA"
+    },
+    {
+      "id": "co03",
+      "cicloId": "c0",
+      "fecha": "2025-11-05",
+      "cantidad": 2400,
+      "unidadId": "un1",
+      "calidad": "PRIMERA",
+      "observaciones": null,
+      "creadoPorId": "u2",
+      "creadoEn": "2025-11-05T17:00:00",
+      "estado": "ACTIVA"
+    },
+    {
+      "id": "co04",
+      "cicloId": "c0",
+      "fecha": "2025-11-28",
+      "cantidad": 1600,
+      "unidadId": "un1",
+      "calidad": "SEGUNDA",
+      "observaciones": null,
+      "creadoPorId": "u2",
+      "creadoEn": "2025-11-28T17:00:00",
+      "estado": "ACTIVA"
+    }
+  ],
+  "mermas": [
+    {
+      "id": "me1",
+      "cicloId": "c1",
+      "fecha": "2026-09-22",
+      "motivoId": "mm1",
+      "etapa": "POSCOSECHA",
+      "cantidad": 30,
+      "unidadId": "un1",
+      "cosechaOrigenId": "co1",
+      "observaciones": "Caída de cajas en el transporte",
+      "creadoPorId": "u2",
+      "creadoEn": "2026-09-22T17:00:00",
+      "estado": "ACTIVA"
+    },
+    {
+      "id": "me2",
+      "cicloId": "c1",
+      "fecha": "2026-10-06",
+      "motivoId": "mm4",
+      "etapa": "POSCOSECHA",
+      "cantidad": 5,
+      "unidadId": "un1",
+      "cosechaOrigenId": "co3",
+      "observaciones": "Producto no comercializable",
+      "creadoPorId": "u2",
+      "creadoEn": "2026-10-06T17:00:00",
+      "estado": "ACTIVA"
+    },
+    {
+      "id": "me3",
+      "cicloId": "c1",
+      "fecha": "2026-09-15",
+      "motivoId": "mm2",
+      "etapa": "CAMPO",
+      "cantidad": 120,
+      "unidadId": "un1",
+      "cosechaOrigenId": null,
+      "observaciones": "Pérdida antes del corte por plagas",
+      "creadoPorId": "u2",
+      "creadoEn": "2026-09-15T17:00:00",
+      "estado": "ACTIVA"
+    },
+    {
+      "id": "me01",
+      "cicloId": "c0",
+      "fecha": "2025-10-15",
+      "motivoId": "mm1",
+      "etapa": "POSCOSECHA",
+      "cantidad": 500,
+      "unidadId": "un1",
+      "cosechaOrigenId": null,
+      "observaciones": null,
+      "creadoPorId": "u2",
+      "creadoEn": "2025-10-15T17:00:00",
+      "estado": "ACTIVA"
+    }
+  ],
+  "motivosMerma": [
+    {
+      "id": "mm1",
+      "nombre": "Golpe/Manejo"
+    },
+    {
+      "id": "mm2",
+      "nombre": "Plagas"
+    },
+    {
+      "id": "mm3",
+      "nombre": "Clima"
+    },
+    {
+      "id": "mm4",
+      "nombre": "Calidad/Industrial"
+    },
+    {
+      "id": "mm5",
+      "nombre": "Enfermedad"
+    },
+    {
+      "id": "mm6",
+      "nombre": "Transporte"
+    }
+  ],
+  "clientes": [
+    {
+      "id": "cl1",
+      "nombre": "Central de Abastos",
+      "tipo": "MERCADO_MAYOREO",
+      "rfc": "CDA880512XX1",
+      "telefono": "951 555 0201",
+      "correo": "compras@centralabastos.mx",
+      "activo": true
+    },
+    {
+      "id": "cl2",
+      "nombre": "Supermercado La Comercial",
+      "tipo": "SUPERMERCADO",
+      "rfc": "SLC900315XX2",
+      "telefono": "951 555 0202",
+      "correo": "abastos@lacomercial.mx",
+      "activo": true
+    },
+    {
+      "id": "cl3",
+      "nombre": "Restaurante El Molino",
+      "tipo": "RESTAURANTE",
+      "rfc": null,
+      "telefono": "951 555 0203",
+      "correo": null,
+      "activo": true
+    }
+  ],
+  "proveedores": [
+    {
+      "id": "pr1",
+      "nombre": "Agroinsumos del Valle",
+      "rfc": "AGV920120XX3",
+      "telefono": "951 555 0301",
+      "correo": "ventas@agroinsumos.mx",
+      "direccion": "Av. Industrial 120",
+      "activo": true
+    },
+    {
+      "id": "pr2",
+      "nombre": "Transportes Zapoteca",
+      "rfc": "TZP010710XX4",
+      "telefono": "951 555 0302",
+      "correo": null,
+      "direccion": "Carretera al Puerto km 2",
+      "activo": true
+    },
+    {
+      "id": "pr3",
+      "nombre": "Agroquímicos del Sur",
+      "rfc": "AGS050922XX5",
+      "telefono": "951 555 0303",
+      "correo": null,
+      "direccion": null,
+      "activo": true
+    }
+  ],
+  "ventas": [
+    {
+      "id": "v1",
+      "cicloId": "c1",
+      "clienteId": "cl1",
+      "fecha": "2026-10-02",
+      "numeroFactura": "F-0092",
+      "fechaLimitePago": "2026-10-05",
+      "descuento": 0,
+      "impuesto": 0,
+      "totalFacturado": 14000,
+      "creadoPorId": "u1",
+      "creadoEn": "2026-10-02T12:00:00",
+      "estado": "ACTIVA",
+      "notas": null
+    },
+    {
+      "id": "v2",
+      "cicloId": "c1",
+      "clienteId": "cl2",
+      "fecha": "2026-10-09",
+      "numeroFactura": "F-0093",
+      "fechaLimitePago": "2026-10-23",
+      "descuento": 0,
+      "impuesto": 0,
+      "totalFacturado": 3100,
+      "creadoPorId": "u3",
+      "creadoEn": "2026-10-09T12:00:00",
+      "estado": "ACTIVA",
+      "notas": null
+    },
+    {
+      "id": "v3",
+      "cicloId": "c1",
+      "clienteId": "cl1",
+      "fecha": "2026-10-10",
+      "numeroFactura": "F-0094",
+      "fechaLimitePago": "2026-10-24",
+      "descuento": 0,
+      "impuesto": 0,
+      "totalFacturado": 8600,
+      "creadoPorId": "u1",
+      "creadoEn": "2026-10-10T12:00:00",
+      "estado": "ACTIVA",
+      "notas": null
+    },
+    {
+      "id": "v01",
+      "cicloId": "c0",
+      "clienteId": "cl1",
+      "fecha": "2025-10-05",
+      "numeroFactura": "F-0050",
+      "fechaLimitePago": "2025-10-20",
+      "descuento": 0,
+      "impuesto": 0,
+      "totalFacturado": 26500,
+      "creadoPorId": "u1",
+      "creadoEn": "2025-10-05T12:00:00",
+      "estado": "ACTIVA",
+      "notas": null
+    },
+    {
+      "id": "v02",
+      "cicloId": "c0",
+      "clienteId": "cl2",
+      "fecha": "2025-11-12",
+      "numeroFactura": "F-0061",
+      "fechaLimitePago": "2025-11-27",
+      "descuento": 0,
+      "impuesto": 0,
+      "totalFacturado": 21100,
+      "creadoPorId": "u3",
+      "creadoEn": "2025-11-12T12:00:00",
+      "estado": "ACTIVA",
+      "notas": null
+    }
+  ],
+  "detallesVenta": [
+    {
+      "id": "dv1",
+      "ventaId": "v1",
+      "calidad": "PRIMERA",
+      "cantidad": 600,
+      "unidadId": "un1",
+      "precioUnitario": 16,
+      "cosechaOrigenId": "co1"
+    },
+    {
+      "id": "dv2",
+      "ventaId": "v1",
+      "calidad": "SEGUNDA",
+      "cantidad": 400,
+      "unidadId": "un1",
+      "precioUnitario": 11,
+      "cosechaOrigenId": "co3"
+    },
+    {
+      "id": "dv3",
+      "ventaId": "v2",
+      "calidad": "PRIMERA",
+      "cantidad": 200,
+      "unidadId": "un1",
+      "precioUnitario": 15.5,
+      "cosechaOrigenId": "co2"
+    },
+    {
+      "id": "dv4",
+      "ventaId": "v3",
+      "calidad": "PRIMERA",
+      "cantidad": 400,
+      "unidadId": "un1",
+      "precioUnitario": 16,
+      "cosechaOrigenId": "co2"
+    },
+    {
+      "id": "dv5",
+      "ventaId": "v3",
+      "calidad": "SEGUNDA",
+      "cantidad": 200,
+      "unidadId": "un1",
+      "precioUnitario": 11,
+      "cosechaOrigenId": "co3"
+    },
+    {
+      "id": "dv01",
+      "ventaId": "v01",
+      "calidad": "PRIMERA",
+      "cantidad": 1400,
+      "unidadId": "un1",
+      "precioUnitario": 15,
+      "cosechaOrigenId": null
+    },
+    {
+      "id": "dv02",
+      "ventaId": "v01",
+      "calidad": "SEGUNDA",
+      "cantidad": 500,
+      "unidadId": "un1",
+      "precioUnitario": 11,
+      "cosechaOrigenId": null
+    },
+    {
+      "id": "dv03",
+      "ventaId": "v02",
+      "calidad": "PRIMERA",
+      "cantidad": 1300,
+      "unidadId": "un1",
+      "precioUnitario": 15,
+      "cosechaOrigenId": null
+    },
+    {
+      "id": "dv04",
+      "ventaId": "v02",
+      "calidad": "TERCERA",
+      "cantidad": 200,
+      "unidadId": "un1",
+      "precioUnitario": 8,
+      "cosechaOrigenId": null
+    }
+  ],
+  "cobros": [
+    {
+      "id": "cb1",
+      "ventaId": "v1",
+      "fecha": "2026-10-08",
+      "monto": 8000,
+      "metodo": "TRANSFERENCIA",
+      "referencia": "SPEI 4471",
+      "creadoPorId": "u3",
+      "creadoEn": "2026-10-08T12:00:00",
+      "estado": "ACTIVO"
+    },
+    {
+      "id": "cb01",
+      "ventaId": "v01",
+      "fecha": "2025-10-18",
+      "monto": 26500,
+      "metodo": "TRANSFERENCIA",
+      "referencia": "SPEI 3001",
+      "creadoPorId": "u3",
+      "creadoEn": "2025-10-18T12:00:00",
+      "estado": "ACTIVO"
+    },
+    {
+      "id": "cb02",
+      "ventaId": "v02",
+      "fecha": "2025-11-25",
+      "monto": 21100,
+      "metodo": "CHEQUE",
+      "referencia": "CH 889012",
+      "creadoPorId": "u3",
+      "creadoEn": "2025-11-25T12:00:00",
+      "estado": "ACTIVO"
+    }
+  ],
+  "bitacora": [
+    {
+      "id": "b1",
+      "usuarioId": "u1",
+      "accion": "INICIO_SESION",
+      "entidad": "Sesion",
+      "entidadId": "-",
+      "valorAnterior": null,
+      "valorNuevo": null,
+      "fecha": "2026-10-11T08:00:00",
+      "empresaId": "emp1"
+    },
+    {
+      "id": "b2",
+      "usuarioId": "u3",
+      "accion": "CREAR",
+      "entidad": "Venta",
+      "entidadId": "v3",
+      "valorAnterior": null,
+      "valorNuevo": "$8,600.00",
+      "fecha": "2026-10-10T12:00:00",
+      "empresaId": "emp1"
+    },
+    {
+      "id": "b3",
+      "usuarioId": "u2",
+      "accion": "CREAR",
+      "entidad": "Cosecha",
+      "entidadId": "co3",
+      "valorAnterior": null,
+      "valorNuevo": "600 kg",
+      "fecha": "2026-10-05T17:00:00",
+      "empresaId": "emp1"
+    }
+  ],
+  "tiposSuelo": [
+    {
+      "id": "ts1",
+      "nombre": "Franco",
+      "descripcion": null,
+      "activo": true
+    },
+    {
+      "id": "ts2",
+      "nombre": "Arcilloso",
+      "descripcion": null,
+      "activo": true
+    },
+    {
+      "id": "ts3",
+      "nombre": "Franco-arcilloso",
+      "descripcion": null,
+      "activo": true
+    },
+    {
+      "id": "ts4",
+      "nombre": "Arenoso",
+      "descripcion": null,
+      "activo": true
+    },
+    {
+      "id": "ts5",
+      "nombre": "Limoso",
+      "descripcion": null,
+      "activo": true
+    }
+  ],
+  "cultivos": [
+    {
+      "id": "cu1",
+      "nombre": "Tomate",
+      "nombreCientifico": null,
+      "activo": true
+    },
+    {
+      "id": "cu2",
+      "nombre": "Maíz",
+      "nombreCientifico": null,
+      "activo": true
+    },
+    {
+      "id": "cu3",
+      "nombre": "Chile",
+      "nombreCientifico": null,
+      "activo": true
+    }
+  ],
+  "adjuntos": []
+}

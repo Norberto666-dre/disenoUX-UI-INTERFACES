@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-campo-50: #f0f9f1;
+  --color-campo-100: #dcf0de;
+  --color-campo-200: #bbe1c1;
+  --color-campo-300: #8bcb98;
+  --color-campo-400: #57ae69;
+  --color-campo-500: #359249;
+  --color-campo-600: #26763a;
+  --color-campo-700: #1f5e30;
+  --color-campo-800: #1b4b29;
+  --color-campo-900: #166534;
+  --color-campo-950: #0a3d1c;
+  --font-sans: "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background: #e7e5e4;
+  color: #1c1917;
+  -webkit-font-smoothing: antialiased;
+}
+
+.dark body {
+  background: #0c0a09;
+  color: #e7e5e4;
+}
+
+.dark ::selection {
+  background: rgba(87, 174, 105, 0.35);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+/* Utilidades de marca */
+@layer utilities {
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.22s ease-out;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.15s ease-out;
+}
+
+/* Flotación sutil de los manejos del fondo de autenticación */
+@keyframes float {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(18px, -22px) scale(1.05);
+  }
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-24px, 16px) scale(1.08);
+  }
+}
+
+.animate-float {
+  animation: float 14s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float-slow 18s ease-in-out infinite;
+}
+
+.animate-float-slower {
+  animation: float-slow 24s ease-in-out infinite reverse;
+}
